@@ -23,7 +23,7 @@ const Navbar = () => {
       }
 
       return (
-            <div className="navbar">
+            <div className="navbar flex-col md:flex-row">
                   <div to='/' className="flex-1">
                         <Link className="font-bold text-3xl text-primary">Byte<span className="text-secondary">Baze</span></Link>
                   </div>
