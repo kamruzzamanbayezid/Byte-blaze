@@ -10,6 +10,10 @@ import BlogDetails from './Pages/BlogDetails/BlogDetails';
 import Content from './Components/Content/Content';
 import Author from './Components/Author/Author';
 import { Toaster } from 'react-hot-toast';
+import Register from './Pages/Register/Register';
+import Login from './Pages/Login/Login';
+import AuthProvider from './Provider/AuthProvider/AuthProvider';
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/blog/:blogId',
-        element: <BlogDetails></BlogDetails>,
+        element: <PrivateRoute><BlogDetails></BlogDetails></PrivateRoute>,
         loader: ({ params }) => fetch(`https://dev.to/api/articles/${params.blogId}`),
         children: [
           {
@@ -47,6 +51,14 @@ const router = createBrowserRouter([
         path: '/bookmarks',
         element: <Bookmarks />,
         loader: () => fetch('https://dev.to/api/articles?per_page=20&top=10')
+      },
+      {
+        path: '/register',
+        element: <Register />
+      },
+      {
+        path: '/login',
+        element: <Login />
       }
     ],
   }
@@ -54,7 +66,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-    <Toaster />
+    <AuthProvider>
+      <RouterProvider router={router} />
+      <Toaster />
+    </AuthProvider>
   </React.StrictMode>,
 )
